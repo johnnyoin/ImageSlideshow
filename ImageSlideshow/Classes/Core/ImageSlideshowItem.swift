@@ -125,14 +125,16 @@ open class ImageSlideshowItem: UIScrollView, UIScrollViewDelegate {
             isLoading = true
             imageReleased = false
             activityIndicator?.show()
-            image.load(to: self.imageView) { image in
-                // set image to nil if there was a release request during the image load
-                self.imageView.image = self.imageReleased ? nil : image
-                self.activityIndicator?.hide()
-                self.loadFailed = image == nil
-                self.isLoading = false
-            }
-        }
+          image.load(to: self.imageView, with: { (image) in
+            // set image to nil if there was a release request during the image load
+            self.imageView.image = self.imageReleased ? nil : image
+            self.activityIndicator?.hide()
+            self.loadFailed = image == nil
+            self.isLoading = false
+          }, lowResolutionCallback: { (image) in
+            self.imageView.image = self.imageReleased ? nil : image
+          })
+      }
     }
     
     func releaseImage() {

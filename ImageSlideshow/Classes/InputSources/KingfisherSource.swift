@@ -45,12 +45,12 @@ public class KingfisherSource: NSObject, InputSource {
         }
     }
 
-    @objc public func load(to imageView: UIImageView, with callback: @escaping (UIImage?) -> Void) {
-        imageView.kf.setImage(with: self.url, placeholder: self.placeholder, options: self.options, progressBlock: nil) { (image, _, _, _) in
+    @objc public func load(to imageView: UIImageView, with callback: @escaping (UIImage?) -> Void, lowResolutionCallback: ((UIImage?) -> Void)? = nil) {
+        imageView.kf.setImage(with: self.url, placeholder: self.placeholder, options: nil, progressBlock: nil) { (image, _, _, _) in
             callback(image)
         }
     }
-    
+
     public func cancelLoad(on imageView: UIImageView) {
         imageView.kf.cancelDownloadTask()
     }
